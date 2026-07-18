@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background &mdash; S2E API Documentation 0.1.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=92734c54"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="S2E API Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            S2E API Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scientific-motivation">Scientific Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#computational-challenges">Computational Challenges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-s2e-solution">The S2E Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seven-canonical-localization-patterns">Seven Canonical Localization Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-trained-model">Pre-trained Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-findings">Key Findings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-from-source">Installing from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verifying-installation">Verifying Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#pretrained-model-download">Pretrained Model Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-documentation">Building Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-1-import-s2e-and-create-a-subce-object">Step 1: Import S2E and Create a SubCE Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-2-normalize-to-pseudo-cell-space">Step 2: Normalize to Pseudo-Cell Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-3-metacell-augmentation-recommended-for-sparse-data">Step 3: Metacell Augmentation (Recommended for Sparse Data)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-4-generate-images">Step 4: Generate Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-5-extract-embeddings">Step 5: Extract Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-6-predict-localization-patterns">Step 6: Predict Localization Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#step-7-downstream-analysis">Step 7: Downstream Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#full-workflow-with-spatialdata">Full Workflow with SpatialData</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#package-structure">Package Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#three-layer-data-model">Three-Layer Data Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#raw-layer">Raw Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#normalized-layer">Normalized Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#recon-layer">Recon Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#pipeline-flow">Pipeline Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.html">S2E — Core Data Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.html#class-subce"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">SubCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.html#constructor-parameters">Constructor Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.html#class-attributes">Class Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.html#instance-methods">Instance Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.html#usage-example">Usage Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.get.html">S2E.get — Data Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.get.html#get-membrane-polygon-data-cell-id-none-cell-boundaries-key-cell-boundaries-nuclei-boundaries-key-nuclei-boundaries-return-polygon-false"><code class="docutils literal notranslate"><span class="pre">get_membrane_polygon(data,</span> <span class="pre">cell_id=None,</span> <span class="pre">cell_boundaries_key='cell_boundaries',</span> <span class="pre">nuclei_boundaries_key='nuclei_boundaries',</span> <span class="pre">return_polygon=False)</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.get.html#get-gene-data-data-pts-key-points-cell-id-none-gene-name-none-exclude-cell-id-none-top-genes-by-expression-none-return-top-genes-list-false-pd-dataframe-tuple"><code class="docutils literal notranslate"><span class="pre">get_gene_data(data,</span> <span class="pre">pts_key='points',</span> <span class="pre">cell_id=None,</span> <span class="pre">gene_name=None,</span> <span class="pre">exclude_cell_id=None,</span> <span class="pre">top_genes_by_expression=None,</span> <span class="pre">return_top_genes_list=False)</span> <span class="pre">-&gt;</span> <span class="pre">pd.DataFrame</span> <span class="pre">|</span> <span class="pre">tuple</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.get.html#get-normalized-membrane-pseudo-cell-boundaries-radius-2-783-tuple-polygon-polygon"><code class="docutils literal notranslate"><span class="pre">get_normalized_membrane(pseudo_cell_boundaries_radius=2.783)</span> <span class="pre">-&gt;</span> <span class="pre">tuple[Polygon,</span> <span class="pre">Polygon]</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.get.html#usage-example">Usage Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.processing.html">S2E.processing — Data Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.processing.html#process-spatialdata-for-s2e-cell-boundaries-nuclei-boundaries-points-df-sd-spatialdata"><code class="docutils literal notranslate"><span class="pre">process_spatialdata_for_s2e(cell_boundaries,</span> <span class="pre">nuclei_boundaries,</span> <span class="pre">points_df,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">sd.SpatialData</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.processing.html#normalize-data-pseudo-cell-boundaries-radius-2-783-num-processes-2-copy-false-subce-none"><code class="docutils literal notranslate"><span class="pre">normalize(data,</span> <span class="pre">pseudo_cell_boundaries_radius=2.783,</span> <span class="pre">...,</span> <span class="pre">num_processes=2,</span> <span class="pre">copy=False)</span> <span class="pre">-&gt;</span> <span class="pre">SubCE</span> <span class="pre">|</span> <span class="pre">None</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.processing.html#normalize-one-cell-gene-data-cell-membrane-nuclei-membrane-pseudo-cell-boundaries-radius-2-783-pd-dataframe"><code class="docutils literal notranslate"><span class="pre">normalize_one_cell(gene_data,</span> <span class="pre">cell_membrane,</span> <span class="pre">nuclei_membrane,</span> <span class="pre">pseudo_cell_boundaries_radius=2.783)</span> <span class="pre">-&gt;</span> <span class="pre">pd.DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.processing.html#reconstruct-data-pts-key-points-model-root-path-ot-models-num-processes-2-copy-false-subce-none"><code class="docutils literal notranslate"><span class="pre">reconstruct(data,</span> <span class="pre">pts_key='points',</span> <span class="pre">...,</span> <span class="pre">model_root_path='./ot_models',</span> <span class="pre">num_processes=2,</span> <span class="pre">copy=False)</span> <span class="pre">-&gt;</span> <span class="pre">SubCE</span> <span class="pre">|</span> <span class="pre">None</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.processing.html#reconstruct-one-cell-gene-data-gene-name-cell-boundary-cell-id-model-root-path-ot-models-pd-dataframe"><code class="docutils literal notranslate"><span class="pre">reconstruct_one_cell(gene_data,</span> <span class="pre">gene_name,</span> <span class="pre">cell_boundary,</span> <span class="pre">cell_id,</span> <span class="pre">model_root_path='./ot_models')</span> <span class="pre">-&gt;</span> <span class="pre">pd.DataFrame</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.processing.html#generate-image-data-data-layer-pts-key-dpi-200-num-processes-2-none"><code class="docutils literal notranslate"><span class="pre">generate_image_data(data,</span> <span class="pre">layer,</span> <span class="pre">pts_key,</span> <span class="pre">...,</span> <span class="pre">dpi=200,</span> <span class="pre">num_processes=2)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.aug.html">S2E.aug — Augmentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.aug.html#cell-gene-augmentation-data-pts-key-points-k-19-num-processes-4-copy-false-subce-none"><code class="docutils literal notranslate"><span class="pre">cell_gene_augmentation(data,</span> <span class="pre">pts_key='points',</span> <span class="pre">...,</span> <span class="pre">k=19,</span> <span class="pre">...,</span> <span class="pre">num_processes=4,</span> <span class="pre">copy=False)</span> <span class="pre">-&gt;</span> <span class="pre">SubCE</span> <span class="pre">|</span> <span class="pre">None</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.aug.html#core-parameters">Core Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.aug.html#auxiliary-cell-mapping">Auxiliary Cell Mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.aug.html#discouraged-parameters-closest-pattern-only">Discouraged Parameters (closest_pattern only)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.aug.html#returns">Returns</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.aug.html#build-reference-auxiliary-map-cells-step-20-drop-last-true-dict"><code class="docutils literal notranslate"><span class="pre">build_reference_auxiliary_map(cells,</span> <span class="pre">step=20,</span> <span class="pre">drop_last=True)</span> <span class="pre">-&gt;</span> <span class="pre">dict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.aug.html#get-similar-cells-in-morphology-sdata-none-tiff-root-path-none-dict-int-list-int"><code class="docutils literal notranslate"><span class="pre">get_similar_cells_in_morphology(sdata=None,</span> <span class="pre">tiff_root_path=None,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">dict[int,</span> <span class="pre">list[int]]</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.aug.html#usage-example">Usage Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.analysis.html">S2E.analysis — Embedding &amp; Pattern Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.analysis.html#embedding-extraction">Embedding Extraction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#get-embedding-img-path-list-model-path-np-ndarray"><code class="docutils literal notranslate"><span class="pre">get_embedding(img_path_list,</span> <span class="pre">model_path,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">np.ndarray</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#get-dataset-embeddings-img-root-path-model-path-anndata"><code class="docutils literal notranslate"><span class="pre">get_dataset_embeddings(img_root_path,</span> <span class="pre">model_path,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">AnnData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#get-blank-pseudocell-embedding-model-path-np-ndarray"><code class="docutils literal notranslate"><span class="pre">get_blank_pseudocell_embedding(model_path,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">np.ndarray</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.analysis.html#pattern-prediction">Pattern Prediction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#pattern-predict-img-path-list-pretrained-model-path-pd-dataframe"><code class="docutils literal notranslate"><span class="pre">pattern_predict(img_path_list,</span> <span class="pre">pretrained_model_path,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">pd.DataFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#pattern-predict-for-dataset-img-root-path-pretrained-model-path-anndata"><code class="docutils literal notranslate"><span class="pre">pattern_predict_for_dataset(img_root_path,</span> <span class="pre">pretrained_model_path,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">AnnData</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.analysis.html#data-classes">Data Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#class-embeddinganndata"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">EmbeddingAnndata</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#class-imagedataset-dataset"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ImageDataset(Dataset)</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#class-customimagefolder-imagefolder"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">CustomImageFolder(ImageFolder)</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.analysis.html#visualization">Visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#draw-cell-gene-gene-data-none-cell-boundary-none-nuclei-boundary-none-none"><code class="docutils literal notranslate"><span class="pre">draw_cell_gene(gene_data=None,</span> <span class="pre">cell_boundary=None,</span> <span class="pre">nuclei_boundary=None,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#plot-pca-heatmap-gene-level-pca-tuple-none"><code class="docutils literal notranslate"><span class="pre">plot_pca_heatmap(gene_level_pca,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">None</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.analysis.html#plot-umap-from-adata-adata-color-by-feature-name-leiden-false-tuple-none"><code class="docutils literal notranslate"><span class="pre">plot_umap_from_adata(adata,</span> <span class="pre">color_by='feature_name',</span> <span class="pre">...,</span> <span class="pre">leiden=False,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">None</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.models.html">S2E.models — Model Infrastructure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.models.html#class-huggingface-model-nn-module"><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">HuggingFace_Model(nn.Module)</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.models.html#forward-pixel-values-torch-tensor-dict"><code class="docutils literal notranslate"><span class="pre">forward(pixel_values:</span> <span class="pre">torch.Tensor)</span> <span class="pre">-&gt;</span> <span class="pre">dict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.models.html#train-ot-model-cell-boundaries-nuclei-boundaries-cell-id-none-none"><code class="docutils literal notranslate"><span class="pre">train_ot_model(cell_boundaries,</span> <span class="pre">nuclei_boundaries,</span> <span class="pre">cell_id=None,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.models.html#model-utilities-model-utils-py-cached-py">Model Utilities (<code class="docutils literal notranslate"><span class="pre">_model_utils.py</span></code>, <code class="docutils literal notranslate"><span class="pre">_cached.py</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.models.html#trainer-module-trainer-py">Trainer Module (<code class="docutils literal notranslate"><span class="pre">trainer.py</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.models.html#usage-example">Usage Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/S2E.utils.html">S2E.utils — Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.utils.html#i-o-functions">I/O Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.utils.html#save-data-file-path-verbose-false-none"><code class="docutils literal notranslate"><span class="pre">save(data,</span> <span class="pre">file_path,</span> <span class="pre">verbose=False)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.utils.html#load-file-path-verbose-false-any"><code class="docutils literal notranslate"><span class="pre">load(file_path,</span> <span class="pre">verbose=False)</span> <span class="pre">-&gt;</span> <span class="pre">Any</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.utils.html#save-to-spatialdata-data-prefix-subce-spatialdata"><code class="docutils literal notranslate"><span class="pre">save_to_spatialdata(data,</span> <span class="pre">prefix='SubCE',</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">SpatialData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.utils.html#load-from-spatialdata-sdata-prefix-subce-subce"><code class="docutils literal notranslate"><span class="pre">load_from_spatialdata(sdata,</span> <span class="pre">prefix='SubCE',</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">SubCE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.utils.html#distance-metrics">Distance Metrics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.utils.html#cosine-dissimilarity-emb1-emb2-float"><code class="docutils literal notranslate"><span class="pre">cosine_dissimilarity(emb1,</span> <span class="pre">emb2)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/S2E.utils.html#point-polygon-operations-pts-polygon-related-py">Point-Polygon Operations (<code class="docutils literal notranslate"><span class="pre">pts_polygon_related.py</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/S2E.utils.html#usage-example">Usage Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">S2E API Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Background</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/background.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="background">
+<h1>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h1>
+<section id="scientific-motivation">
+<h2>Scientific Motivation<a class="headerlink" href="#scientific-motivation" title="Link to this heading"></a></h2>
+<p>The spatial organization of molecules within a cell is fundamental to their function. While current computational frameworks have advanced spatial analysis at the subcellular level by defining domains and quantifying colocalization, a critical gap remains in generating gene embeddings that directly capture the nuanced spatial distribution patterns of transcripts.</p>
+<p>S2E bridges this gap by leveraging <strong>Vision Transformers</strong> (ViTs) to encode subcellular spatial patterns of genes into a unified embedding space.</p>
+</section>
+<section id="computational-challenges">
+<h2>Computational Challenges<a class="headerlink" href="#computational-challenges" title="Link to this heading"></a></h2>
+<p>As resolution approaches the sub-micron scale, spatial transcriptomics data analysis faces formidable challenges:</p>
+<ul class="simple">
+<li><p><strong>Extreme sparsity</strong>: Often only a handful of RNA transcripts per gene are captured within a single cell</p></li>
+<li><p><strong>Unstructured point-cloud nature</strong>: Raw transcript coordinates lack the regular grid structure needed for conventional analysis</p></li>
+<li><p><strong>Scale variance</strong>: Cells vary dramatically in size and shape</p></li>
+</ul>
+<p>Traditional statistical frameworks struggle to decode the latent functional semantics embedded within the physical landscape of these sparse point patterns.</p>
+</section>
+<section id="the-s2e-solution">
+<h2>The S2E Solution<a class="headerlink" href="#the-s2e-solution" title="Link to this heading"></a></h2>
+<p>S2E addresses these challenges through a multi-stage pipeline:</p>
+<ol class="arabic simple">
+<li><p><strong>Data Integration</strong> — Integrates single-molecule coordinates from high-throughput spatial omics with membrane morphology (polygons) into a SpatialData-compatible format</p></li>
+<li><p><strong>Spatial Normalization</strong> — Maps raw transcripts to pseudo-cells with standardized geometry (nucleus radius=1, cell radius=2.783)</p></li>
+<li><p><strong>Metacell Augmentation</strong> — Physically superimposes biological signals from multiple independent cells onto the standardized pseudo-cell coordinate system, dramatically increasing effective transcript density</p></li>
+<li><p><strong>Image Rendering</strong> — Transforms augmented transcript coordinates into image representations</p></li>
+<li><p><strong>ViT Embedding</strong> — Processes images through a pre-trained Vision Transformer to generate gene-specific embeddings at single-cell resolution</p></li>
+<li><p><strong>Downstream Analysis</strong> — Enables quantitative assessment of subcellular localization pattern heterogeneity</p></li>
+</ol>
+</section>
+<section id="seven-canonical-localization-patterns">
+<h2>Seven Canonical Localization Patterns<a class="headerlink" href="#seven-canonical-localization-patterns" title="Link to this heading"></a></h2>
+<p>The S2E pre-trained model recognizes seven distinct subcellular RNA localization patterns:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Pattern</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Intranuclear</strong></p></td>
+<td><p>Uniform distribution within the nucleus</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Nuclear edge</strong></p></td>
+<td><p>Enrichment at the nuclear membrane</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Perinuclear</strong></p></td>
+<td><p>Cytoplasmic bias toward nucleus, density decays with distance</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Extranuclear</strong></p></td>
+<td><p>Random cytoplasmic distribution</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cell edge</strong></p></td>
+<td><p>Enrichment at the cell membrane</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Pericellular</strong></p></td>
+<td><p>Cytoplasmic ring, density decreases toward nucleus</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Foci</strong></p></td>
+<td><p>Dense aggregates representing molecular clusters</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pre-trained-model">
+<h2>Pre-trained Model<a class="headerlink" href="#pre-trained-model" title="Link to this heading"></a></h2>
+<p>The S2E pattern prediction model was pre-trained on <strong>1,050,748 simulated instances</strong> using 4× RTX 4090 GPUs for 22 epochs (~8 hours). The model backbone is <code class="docutils literal notranslate"><span class="pre">microsoft/swinv2-base-patch4-window16-256</span></code> with <code class="docutils literal notranslate"><span class="pre">google/vit-base-patch16-224</span></code> as an alternative.</p>
+</section>
+<section id="key-findings">
+<h2>Key Findings<a class="headerlink" href="#key-findings" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Metacell augmentation</strong> (k≥3) reliably distinguishes fine-grained gene-specific spatial features even under extreme sparsity (as few as 16 transcripts per instance)</p></li>
+<li><p><strong>Empirical threshold</strong>: ~200 transcripts per metacell achieves sensitive gene-level differentiation</p></li>
+<li><p>S2E embeddings successfully capture <strong>drug-induced spatial reorganization</strong> in iPSC cardiomyocytes and <strong>ER stress time-course responses</strong> in HeLa cells</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<p>The S2E framework demonstrates that image-based representation learning can effectively capture and compare subcellular RNA localization patterns, opening new avenues for understanding the functional roles of RNA spatial organization in health and disease.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="S2E API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, S2E Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
